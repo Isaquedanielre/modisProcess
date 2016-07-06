@@ -7,3 +7,5 @@ reprojectHDF('MCD12Q1.A2001001.h11v05.051.2014287162250.hdf',
 
 modisReprojectAll(inoutDir = 'G:/MODIS/MCD12Q1/', PIXEL_SIZE = 1000)
 modisReprojectAll(inoutDir = 'G:/MODIS/MCD12Q2/', PIXEL_SIZE = 1000)
+
+modisReprojectAll(inDir = 'G:/example', outDir='G:/example/out/', PIXEL_SIZE = 1000)

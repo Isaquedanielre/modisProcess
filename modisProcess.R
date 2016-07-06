@@ -8,16 +8,16 @@ MRT_bin_DIR <- paste(MRT_DIR,'bin/',sep='')
 Sys.setenv(MRT_DATA_DIR  = paste(MRT_DIR,'data',sep = ''))
 
 
-modisReprojectAll <- function(inoutDir, projType = "SIN", projDatum = 'NoDatum', projUTMtzone=NULL, projParam = 6371007.181, PIXEL_SIZE=NA){
+modisReprojectAll <- function(inDir, outDir, projType = "SIN", projDatum = 'NoDatum', projUTMtzone=NULL, projParam = 6371007.181, PIXEL_SIZE=NA){
   #1000m : 926.6254331
   #500m: 463.3127165
   #250: 231.65635825
   wd <- getwd()
-  setwd(inoutDir)
+  setwd(inDir)
   
   files <- dir( pattern = '*.hdf$')
   for (filename in files){
-    reprojectHDF(filename, paste(inoutDir, filename,'.tif',sep=''), MRT_bin_DIR, proj_type=projType, datum=projDatum, utm_zone=NULL, proj_params= projParam, pixel_size=PIXEL_SIZE)
+    reprojectHDF(filename, paste(outDir, filename,'.tif',sep=''), MRT_bin_DIR, proj_type=projType, datum=projDatum, utm_zone=NULL, proj_params= projParam, pixel_size=PIXEL_SIZE)
   }
   setwd(wd)
 }
@@ -26,7 +26,7 @@ modisReprojectAll <- function(inoutDir, projType = "SIN", projDatum = 'NoDatum',
 modisReprojectAllFolders <- function(PATH, projType = "SIN", projDatum = 'NoDatum', projUTMtzone=NULL, projParam = 6371007.181){
   folders <- dir(PATH)
   for (folder in folders){
-    modisReprojectAll(inoutDir = folder)
+    modisReprojectAll(inDir = folder)
   }
   
 }
