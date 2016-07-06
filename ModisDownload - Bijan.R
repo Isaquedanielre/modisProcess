@@ -106,8 +106,8 @@ modisProducts <- function() {
         else hc <- as.character(hh)
         ModisName <- grep(".hdf$",grep(paste('h',hc,'v',vc,sep=''),getlist,value=TRUE),value=TRUE)
         #if (length(ModisName) == 1) {
-          m <- c(m,paste(x,dirs[i], "/",ModisName,sep='')[length(ModisName)])
-          Modislist[[dirs[i]]] <- m
+        m <- c(m,paste(x,dirs[i], "/",ModisName,sep='')[length(ModisName)])
+        Modislist[[dirs[i]]] <- m
         #}
       }
     }
@@ -202,7 +202,7 @@ setMethod("mosaicHDF", "character",
 
 setMethod("reprojectHDF", "character",
           function(hdfName,filename,MRTpath,UL="",LR="",resample_type='NEAREST_NEIGHBOR',proj_type='UTM',
-                   bands_subset='',proj_params='0 0 0 0 0 0 0 0 0 0 0 0',datum='WGS84',utm_zone=NA,pixel_size=1000) {
+                   bands_subset='',proj_params='0 0 0 0 0 0 0 0 0 0 0 0',datum='WGS84',utm_zone=NA,pixel_size=NA) {
             
             fname = file('tmp.prm', open="wt")
             write(paste('INPUT_FILENAME = ', getwd(), '/',hdfName, sep=""), fname) 
@@ -220,7 +220,7 @@ setMethod("reprojectHDF", "character",
             write(paste('OUTPUT_PROJECTION_PARAMETERS = ( ',proj_params,' )',sep=''), fname, append=TRUE)
             write(paste('DATUM = ',datum,sep=''), fname, append=TRUE)
             if (proj_type == 'UTM') write(paste('UTM_ZONE = ',utm_zone,sep=''), fname, append=TRUE)
-            write(paste('OUTPUT_PIXEL_SIZE = ',as.character(pixel_size),sep=''), fname, append=TRUE)
+            if(!is.na(pixel_size)) write(paste('OUTPUT_PIXEL_SIZE = ',as.character(pixel_size),sep=''), fname, append=TRUE)
             close(fname)
             e <- system(paste(MRTpath, '/resample -p ',getwd(),'/','tmp.prm', sep=''))
             if (e == 0) return (TRUE)
